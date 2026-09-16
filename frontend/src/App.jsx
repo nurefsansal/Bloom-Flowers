@@ -1,8 +1,15 @@
+import { BrowserRouter } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import AppRoutes from './routes/AppRoutes';
+
 function App() {
   return (
-    <div>
-      <h1>Bloom Flowers</h1>
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <AppRoutes />
+      <Footer />
+    </BrowserRouter>
   );
 }
 
