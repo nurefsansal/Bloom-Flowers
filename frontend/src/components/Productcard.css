@@ -73,4 +73,10 @@
   background-color: var(--color-neutral-300);
   color: var(--color-neutral-600);
   cursor: not-allowed;
+
+.product-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
 }
