@@ -12,6 +12,7 @@
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--color-primary);
+  text-decoration: none;
 }
 
 .navbar-links {
@@ -32,6 +33,7 @@
 
 .navbar-actions {
   display: flex;
+  align-items: center;
   gap: var(--spacing-sm);
 }
 
@@ -40,9 +42,45 @@
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
+  text-decoration: none;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.navbar-orders-link {
+  font-size: 0.9rem;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.navbar-orders-link:hover {
+  text-decoration: underline;
+}
+
+.navbar-user-name {
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.navbar-logout-btn {
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.navbar-logout-btn:hover {
+  text-decoration: underline;
 }
 
 /* Mobile */
+
 @media (max-width: 768px) {
   .navbar {
     flex-wrap: wrap;
@@ -55,4 +93,25 @@
     justify-content: center;
     gap: var(--spacing-md);
   }
+
+  .navbar-user {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+
+.navbar-admin-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.navbar-admin-links a {
+  font-size: 0.9rem;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.navbar-admin-links a:hover {
+  text-decoration: underline;
 }

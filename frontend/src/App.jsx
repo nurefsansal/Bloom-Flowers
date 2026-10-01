@@ -3,15 +3,18 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AppRoutes from './routes/AppRoutes';
 import { CartProvider } from './context/CartContext';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
     <BrowserRouter>
-      <CartProvider>
-        <Navbar />
-        <AppRoutes />
-        <Footer />
-      </CartProvider>
+      <AuthProvider>
+        <CartProvider>
+          <Navbar />
+          <AppRoutes />
+          <Footer />
+        </CartProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

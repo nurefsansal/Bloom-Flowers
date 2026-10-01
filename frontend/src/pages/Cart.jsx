@@ -1,8 +1,14 @@
+import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import './Cart.css';
 
 function Cart() {
-  const { cartItems, increaseQuantity, decreaseQuantity, removeFromCart } = useCart();
+  const {
+    cartItems,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromCart,
+  } = useCart();
 
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -20,7 +26,11 @@ function Cart() {
           <div className="cart-items">
             {cartItems.map((item) => (
               <div className="cart-item" key={item.id}>
-                <img src={item.imageUrl} alt={item.name} className="cart-item-image" />
+                <img
+                  src={item.imageUrl}
+                  alt={item.name}
+                  className="cart-item-image"
+                />
 
                 <div className="cart-item-info">
                   <h2>{item.name}</h2>
@@ -33,10 +43,12 @@ function Cart() {
                     >
                       -
                     </button>
+
                     <span>{item.quantity}</span>
+
                     <button
                       onClick={() => increaseQuantity(item.id)}
-                      disabled={item.quantity === item.stock}
+                      disabled={item.quantity === item.stockQuantity}
                     >
                       +
                     </button>
@@ -61,6 +73,10 @@ function Cart() {
             <span>Toplam:</span>
             <span className="cart-total-price">{totalPrice} ₺</span>
           </div>
+
+          <Link to="/checkout" className="cart-checkout-btn">
+            Siparişi Tamamla
+          </Link>
         </>
       )}
     </div>
