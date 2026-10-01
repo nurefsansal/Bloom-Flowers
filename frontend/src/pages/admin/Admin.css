@@ -1,0 +1,128 @@
+.admin-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--spacing-2xl) var(--spacing-xl);
+}
+
+.admin-page h1 {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.admin-page h2 {
+  margin-bottom: var(--spacing-md);
+}
+
+.admin-error {
+  color: var(--color-error);
+  margin-bottom: var(--spacing-md);
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  background-color: var(--color-white);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-xl);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.admin-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus,
+.admin-form select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.admin-form-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.admin-form button,
+.admin-table button {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-right: var(--spacing-xs);
+}
+
+.admin-form button:hover,
+.admin-table button:hover {
+  opacity: 0.9;
+}
+
+.admin-form button[type='button'] {
+  background-color: var(--color-neutral-500);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--color-neutral-300);
+}
+
+.admin-table th {
+  font-weight: 600;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.dashboard-card {
+  background-color: var(--color-white);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.dashboard-card-label {
+  font-size: 0.85rem;
+  color: var(--color-neutral-600);
+}
+
+.dashboard-card-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}

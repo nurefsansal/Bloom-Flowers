@@ -1,30 +1,66 @@
 :root {
-  /* Ana Renkler — Bloom Flowers Premium Palette */
-  --color-primary: #1F3B2C;        /* Dark Green — ana marka rengi */
-  --color-primary-light: #2E4F3D;  /* Hover/açık ton */
-  --color-cream: #FAF6F0;          /* Arka plan — sıcak krem */
-  --color-white: #FFFFFF;
-  --color-neutral-100: #F5F3EF;    /* Soft neutral — kart arka planı */
-  --color-neutral-300: #D9D4CB;    /* Border, ayraç */
-  --color-neutral-600: #6B6459;    /* İkincil metin */
-  --color-text: #1A1A1A;           /* Ana metin */
-  --color-error: #B3261E;          /* Hata mesajları */
-  --color-success: #2E5E3E;        /* Başarı mesajları (primary ile uyumlu yeşil ton) */
+  /* ===== RENKLER ===== */
 
-  /* Tipografi */
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Inter', sans-serif;
+  --color-ink: #12211A;
+  --color-moss: #2B4636;
+  --color-moss-dark: #1C2F24;
+  --color-parchment: #F4EFE4;
+  --color-porcelain: #FBF9F4;
+  --color-gold: #A9822C;
 
-  /* Spacing (boşluk birimleri — tutarlılık için) */
+  --color-neutral-200: #E7E1D3;
+  --color-neutral-300: #D6CEBC;
+  --color-neutral-600: #6E6656;
+
+  --color-error: #B3261E;
+  --color-success: #2E5E3E;
+
+  /* Eski component'ler için uyumluluk */
+
+  --color-primary: var(--color-moss);
+  --color-primary-light: #3D5C48;
+  --color-cream: var(--color-parchment);
+  --color-white: var(--color-porcelain);
+  --color-text: var(--color-ink);
+  --color-neutral-100: var(--color-neutral-200);
+
+  /* ===== TİPOGRAFİ ===== */
+
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Work Sans', sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.15rem;
+  --text-xl: 1.4rem;
+  --text-2xl: 1.9rem;
+  --text-3xl: 2.5rem;
+  --text-4xl: 3.25rem;
+  --text-5xl: clamp(2.75rem, 5vw, 4.5rem);
+
+  /* ===== SPACING ===== */
+
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 24px;
   --spacing-xl: 40px;
   --spacing-2xl: 64px;
+  --spacing-3xl: 100px;
 
-  /* Border radius */
+  /* ===== BORDER RADIUS ===== */
+
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;
+
+  /* ===== SHADOW ===== */
+
+  --shadow-sm: 0 1px 2px rgba(18, 33, 26, 0.08);
+  --shadow-md: 0 8px 24px rgba(18, 33, 26, 0.10);
+
+  /* ===== TRANSITION ===== */
+
+  --transition-base: 0.2s ease;
 }

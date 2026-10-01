@@ -16,13 +16,20 @@ export function CartProvider({ children }) {
 
   useEffect(() => {
     try {
-      localStorage.setItem('bloomflowers_cart', JSON.stringify(cartItems));
+      localStorage.setItem(
+        'bloomflowers_cart',
+        JSON.stringify(cartItems)
+      );
     } catch {
-      // localStorage kullanılamıyorsa (örn. gizli sekme kotası dolu) sessizce geç
+      // localStorage kullanılamıyorsa sessizce geç
     }
   }, [cartItems]);
 
   const addToCart = (product, quantity) => {
+    if (product.stockQuantity <= 0 || quantity <= 0) {
+      return;
+    }
+
     setCartItems((currentItems) => {
       const existingItem = currentItems.find(
         (item) => item.id === product.id
@@ -31,8 +38,9 @@ export function CartProvider({ children }) {
       if (existingItem) {
         const newQuantity = Math.min(
           existingItem.quantity + quantity,
-          product.stock
+          product.stockQuantity
         );
+
         return currentItems.map((item) =>
           item.id === product.id
             ? { ...item, quantity: newQuantity }
@@ -42,7 +50,13 @@ export function CartProvider({ children }) {
 
       return [
         ...currentItems,
-        { ...product, quantity: Math.min(quantity, product.stock) },
+        {
+          ...product,
+          quantity: Math.min(
+            quantity,
+            product.stockQuantity
+          ),
+        },
       ];
     });
   };
@@ -50,8 +64,12 @@ export function CartProvider({ children }) {
   const increaseQuantity = (productId) => {
     setCartItems((currentItems) =>
       currentItems.map((item) =>
-        item.id === productId && item.quantity < item.stock
-          ? { ...item, quantity: item.quantity + 1 }
+        item.id === productId &&
+        item.quantity < item.stockQuantity
+          ? {
+              ...item,
+              quantity: item.quantity + 1,
+            }
           : item
       )
     );
@@ -60,8 +78,12 @@ export function CartProvider({ children }) {
   const decreaseQuantity = (productId) => {
     setCartItems((currentItems) =>
       currentItems.map((item) =>
-        item.id === productId && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
+        item.id === productId &&
+        item.quantity > 1
+          ? {
+              ...item,
+              quantity: item.quantity - 1,
+            }
           : item
       )
     );
@@ -69,8 +91,14 @@ export function CartProvider({ children }) {
 
   const removeFromCart = (productId) => {
     setCartItems((currentItems) =>
-      currentItems.filter((item) => item.id !== productId)
+      currentItems.filter(
+        (item) => item.id !== productId
+      )
     );
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
   };
 
   return (
@@ -81,6 +109,7 @@ export function CartProvider({ children }) {
         increaseQuantity,
         decreaseQuantity,
         removeFromCart,
+        clearCart,
       }}
     >
       {children}

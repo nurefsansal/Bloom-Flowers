@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { mockProducts } from '../services/mockProducts';
+import { getProductById } from '../services/productService';
 import './ProductDetail.css';
 import { useCart } from '../context/CartContext';
 
@@ -8,19 +8,64 @@ function ProductDetail() {
   const { addToCart } = useCart();
   const { id } = useParams();
 
-  const product = mockProducts.find(
-    (product) => product.id === Number(id)
-  );
+  const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [cartMessage, setCartMessage] = useState('');
 
-  const [quantity, setQuantity] = useState(1);
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        setLoading(true);
+        setError('');
+        setCartMessage('');
 
-  if (!product) {
+        const data = await getProductById(id);
+
+        setProduct(data);
+        setQuantity(data.stockQuantity > 0 ? 1 : 0);
+      } catch (error) {
+        console.error('Ürün detayı alınamadı:', error);
+        setError('Ürün bilgileri alınırken bir hata oluştu.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
     return (
       <div className="product-detail-not-found">
-        <h1>Ürün bulunamadı.</h1>
+        <h1>Ürün yükleniyor...</h1>
       </div>
     );
   }
+
+  if (error || !product) {
+    return (
+      <div className="product-detail-not-found">
+        <h1>{error || 'Ürün bulunamadı.'}</h1>
+      </div>
+    );
+  }
+
+  const isOutOfStock = product.stockQuantity === 0;
+
+  const handleAddToCart = () => {
+    if (isOutOfStock || quantity <= 0) {
+      return;
+    }
+
+    addToCart(product, quantity);
+    setCartMessage('Ürün sepete eklendi.');
+
+    setTimeout(() => {
+      setCartMessage('');
+    }, 3000);
+  };
 
   return (
     <div className="product-detail-page">
@@ -36,7 +81,7 @@ function ProductDetail() {
 
         <div className="product-detail-info">
           <p className="product-detail-category">
-            {product.category}
+            {product.categoryName}
           </p>
 
           <h1 className="product-detail-name">
@@ -52,11 +97,12 @@ function ProductDetail() {
           </p>
 
           <p className="product-detail-stock">
-            Stok: {product.stock}
+            Stok: {product.stockQuantity}
           </p>
 
           <div className="product-detail-quantity">
             <button
+              disabled={isOutOfStock || quantity <= 1}
               onClick={() =>
                 setQuantity((prev) => Math.max(1, prev - 1))
               }
@@ -67,9 +113,13 @@ function ProductDetail() {
             <span>{quantity}</span>
 
             <button
+              disabled={
+                isOutOfStock ||
+                quantity >= product.stockQuantity
+              }
               onClick={() =>
                 setQuantity((prev) =>
-                  Math.min(product.stock, prev + 1)
+                  Math.min(product.stockQuantity, prev + 1)
                 )
               }
             >
@@ -79,11 +129,20 @@ function ProductDetail() {
 
           <button
             className="product-detail-cart-btn"
-            disabled={product.stock === 0}
-            onClick={() => addToCart(product, quantity)}
+            disabled={isOutOfStock}
+            onClick={handleAddToCart}
           >
-            {product.stock === 0 ? 'Stokta Yok' : 'Sepete Ekle'}
+            {isOutOfStock
+              ? 'Stokta Yok'
+              : 'Sepete Ekle'}
           </button>
+
+          {cartMessage && (
+            <p className="product-detail-cart-message">
+              {cartMessage}
+            </p>
+          )}
+
         </div>
 
       </div>
