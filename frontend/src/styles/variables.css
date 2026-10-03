@@ -1,32 +1,30 @@
 :root {
-  /* ===== RENKLER ===== */
+  --color-ink: #20271f;
 
-  --color-ink: #12211A;
-  --color-moss: #2B4636;
-  --color-moss-dark: #1C2F24;
-  --color-parchment: #F4EFE4;
-  --color-porcelain: #FBF9F4;
-  --color-gold: #A9822C;
+  --color-moss: #34432f;
+  --color-moss-dark: #263323;
+  --color-moss-light: #68775b;
 
-  --color-neutral-200: #E7E1D3;
-  --color-neutral-300: #D6CEBC;
-  --color-neutral-600: #6E6656;
+  --color-parchment: #f3f0e8;
+  --color-porcelain: #faf9f5;
 
-  --color-error: #B3261E;
-  --color-success: #2E5E3E;
+  --color-gold: #9a936d;
 
-  /* Eski component'ler için uyumluluk */
+  --color-neutral-100: #f0eee7;
+  --color-neutral-200: #e5e1d7;
+  --color-neutral-300: #d4d0c4;
+  --color-neutral-600: #77766b;
+
+  --color-error: #a7473f;
+  --color-success: #526b4a;
 
   --color-primary: var(--color-moss);
-  --color-primary-light: #3D5C48;
+  --color-primary-light: var(--color-moss-light);
   --color-cream: var(--color-parchment);
   --color-white: var(--color-porcelain);
   --color-text: var(--color-ink);
-  --color-neutral-100: var(--color-neutral-200);
 
-  /* ===== TİPOGRAFİ ===== */
-
-  --font-heading: 'Fraunces', serif;
+  --font-heading: 'Cormorant Garamond', serif;
   --font-body: 'Work Sans', sans-serif;
 
   --text-xs: 0.75rem;
@@ -39,7 +37,15 @@
   --text-4xl: 3.25rem;
   --text-5xl: clamp(2.75rem, 5vw, 4.5rem);
 
-  /* ===== SPACING ===== */
+  --line-height-tight: 1.05;
+  --line-height-heading: 1.15;
+  --line-height-body: 1.6;
+  --line-height-relaxed: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.08em;
+  --tracking-wider: 0.14em;
 
   --spacing-xs: 4px;
   --spacing-sm: 8px;
@@ -49,18 +55,42 @@
   --spacing-2xl: 64px;
   --spacing-3xl: 100px;
 
-  /* ===== BORDER RADIUS ===== */
+  --container-sm: 640px;
+  --container-md: 900px;
+  --container-lg: 1200px;
+  --container-xl: 1400px;
+  --container-padding: 24px;
+
+  --border-subtle: 1px solid var(--color-neutral-200);
+  --border-light: 1px solid rgba(32, 39, 31, 0.12);
+  --border-dark: 1px solid rgba(32, 39, 31, 0.25);
 
   --radius-sm: 4px;
   --radius-md: 8px;
-  --radius-lg: 16px;
+  --radius-lg: 12px;
+  --radius-xl: 18px;
 
-  /* ===== SHADOW ===== */
+  --shadow-sm: 0 2px 8px rgba(32, 39, 31, 0.05);
+  --shadow-md: 0 12px 32px rgba(32, 39, 31, 0.08);
 
-  --shadow-sm: 0 1px 2px rgba(18, 33, 26, 0.08);
-  --shadow-md: 0 8px 24px rgba(18, 33, 26, 0.10);
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
 
-  /* ===== TRANSITION ===== */
-
-  --transition-base: 0.2s ease;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
 }
+
+@media (max-width: 768px) {
+  :root {
+    --container-padding: 18px;
+    --spacing-2xl: 48px;
+    --spacing-3xl: 72px;
+    --text-4xl: 2.6rem;
+    --text-5xl: clamp(2.4rem, 10vw, 3.5rem);
+  }
+}
+

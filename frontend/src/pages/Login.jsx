@@ -28,36 +28,79 @@ function Login() {
   }
 
   return (
-    <div className="auth-page">
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <h1>Giriş Yap</h1>
+    <main className="auth-page">
+      <div className="auth-layout">
+        <section className="auth-intro">
+          <span className="auth-eyebrow">BLOOM FLOWERS</span>
 
-        {error && <p className="auth-error">{error}</p>}
+          <h1 className="auth-title">
+            Çiçeklerin
+            <br />
+            dünyasına
+            <br />
+            hoş geldin.
+          </h1>
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Şifre"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <p className="auth-description">
+            Özel anlarınız için seçtiğiniz çiçekleri
+            keşfetmeye ve siparişlerinizi yönetmeye
+            devam edin.
+          </p>
+        </section>
 
-        <button type="submit" disabled={loading}>
-          {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
-        </button>
+        <section className="auth-form-section">
+          <form className="auth-form" onSubmit={handleSubmit}>
+            {error && (
+              <p className="auth-error">
+                {error}
+              </p>
+            )}
 
-        <p className="auth-switch">
-          Hesabın yok mu? <Link to="/register">Kayıt ol</Link>
-        </p>
-      </form>
-    </div>
+            <div className="auth-field">
+              <label htmlFor="login-email">Email</label>
+
+              <input
+                id="login-email"
+                type="email"
+                placeholder="ornek@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="auth-field">
+              <label htmlFor="login-password">Şifre</label>
+
+              <input
+                id="login-password"
+                type="password"
+                placeholder="Şifrenizi girin"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="auth-submit"
+              disabled={loading}
+            >
+              <span>
+                {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
+              </span>
+              <span>→</span>
+            </button>
+
+            <div className="auth-switch">
+              <span>Henüz hesabın yok mu?</span>
+              <Link to="/register">Kayıt ol</Link>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
   );
 }
 

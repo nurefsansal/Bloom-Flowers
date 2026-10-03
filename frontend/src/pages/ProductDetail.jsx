@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getProductById } from '../services/productService';
-import './ProductDetail.css';
 import { useCart } from '../context/CartContext';
+import { getImageUrl } from '../utils/getImageUrl';
+import './ProductDetail.css';
 
 function ProductDetail() {
   const { addToCart } = useCart();
@@ -38,17 +39,17 @@ function ProductDetail() {
 
   if (loading) {
     return (
-      <div className="product-detail-not-found">
-        <h1>Ürün yükleniyor...</h1>
-      </div>
+      <main className="product-detail-message-page">
+        <p>Ürün yükleniyor...</p>
+      </main>
     );
   }
 
   if (error || !product) {
     return (
-      <div className="product-detail-not-found">
+      <main className="product-detail-message-page">
         <h1>{error || 'Ürün bulunamadı.'}</h1>
-      </div>
+      </main>
     );
   }
 
@@ -60,93 +61,146 @@ function ProductDetail() {
     }
 
     addToCart(product, quantity);
+
     setCartMessage('Ürün sepete eklendi.');
 
     setTimeout(() => {
       setCartMessage('');
-    }, 3000);
+    }, 2500);
   };
 
   return (
-    <div className="product-detail-page">
+    <main className="product-detail-page">
       <div className="product-detail-container">
+        <div className="product-detail-image-column">
+          <div className="product-detail-image-wrapper">
+            <img
+                src={getImageUrl(product.imageUrl)}
+                alt={product.name}
+                className="product-detail-image"
+            />
+          </div>
 
-        <div className="product-detail-image-wrapper">
-          <img
-            src={product.imageUrl}
-            alt={product.name}
-            className="product-detail-image"
-          />
+          <span className="product-detail-image-caption">
+            BLOOM FLOWERS / COLLECTION
+          </span>
         </div>
 
         <div className="product-detail-info">
-          <p className="product-detail-category">
-            {product.categoryName}
-          </p>
+          <div className="product-detail-heading">
+            <span className="product-detail-eyebrow">
+              {product.categoryName}
+            </span>
 
-          <h1 className="product-detail-name">
-            {product.name}
-          </h1>
+            <h1 className="product-detail-name">
+              {product.name}
+            </h1>
 
-          <p className="product-detail-price">
-            {product.price} ₺
-          </p>
+            <p className="product-detail-price">
+              {product.price} ₺
+            </p>
+          </div>
+
+          <div className="product-detail-divider" />
 
           <p className="product-detail-description">
             {product.description}
           </p>
 
-          <p className="product-detail-stock">
-            Stok: {product.stockQuantity}
-          </p>
+          <div className="product-detail-stock">
+            <span className="product-detail-stock-label">
+              Durum
+            </span>
 
-          <div className="product-detail-quantity">
+            {isOutOfStock ? (
+              <span className="product-detail-stock-out">
+                Tükendi
+              </span>
+            ) : (
+              <span>
+                Stokta · {product.stockQuantity} adet
+              </span>
+            )}
+          </div>
+
+          <div className="product-detail-purchase">
+            <div className="product-detail-quantity">
+              <button
+                type="button"
+                disabled={isOutOfStock || quantity <= 1}
+                onClick={() =>
+                  setQuantity((prev) =>
+                    Math.max(1, prev - 1)
+                  )
+                }
+                aria-label="Ürün adedini azalt"
+              >
+                −
+              </button>
+
+              <span>{quantity}</span>
+
+              <button
+                type="button"
+                disabled={
+                  isOutOfStock ||
+                  quantity >= product.stockQuantity
+                }
+                onClick={() =>
+                  setQuantity((prev) =>
+                    Math.min(
+                      product.stockQuantity,
+                      prev + 1
+                    )
+                  )
+                }
+                aria-label="Ürün adedini artır"
+              >
+                +
+              </button>
+            </div>
+
             <button
-              disabled={isOutOfStock || quantity <= 1}
-              onClick={() =>
-                setQuantity((prev) => Math.max(1, prev - 1))
-              }
+              type="button"
+              className="product-detail-cart-btn"
+              disabled={isOutOfStock}
+              onClick={handleAddToCart}
             >
-              -
-            </button>
+              <span>
+                {isOutOfStock
+                  ? 'Stokta Yok'
+                  : 'Sepete Ekle'}
+              </span>
 
-            <span>{quantity}</span>
-
-            <button
-              disabled={
-                isOutOfStock ||
-                quantity >= product.stockQuantity
-              }
-              onClick={() =>
-                setQuantity((prev) =>
-                  Math.min(product.stockQuantity, prev + 1)
-                )
-              }
-            >
-              +
+              {!isOutOfStock && <span>→</span>}
             </button>
           </div>
 
-          <button
-            className="product-detail-cart-btn"
-            disabled={isOutOfStock}
-            onClick={handleAddToCart}
-          >
-            {isOutOfStock
-              ? 'Stokta Yok'
-              : 'Sepete Ekle'}
-          </button>
+          <div className="product-detail-note">
+            <span>Bloom Flowers</span>
 
-          {cartMessage && (
-            <p className="product-detail-cart-message">
-              {cartMessage}
+            <p>
+              Her tasarım, sevdiklerinize ulaşmadan önce
+              özenle hazırlanır.
             </p>
-          )}
-
+          </div>
         </div>
-
       </div>
-    </div>
+
+      {cartMessage && (
+        <div className="cart-toast">
+          <div className="cart-toast-icon">
+            ✓
+          </div>
+
+          <div className="cart-toast-text">
+            <strong>Sepete eklendi</strong>
+
+            <span>{cartMessage}</span>
+          </div>
+        </div>
+      )}
+    </main>
   );
 }
 

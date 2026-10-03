@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { getImageUrl } from '../utils/getImageUrl';
 import './ProductCard.css';
 
 function ProductCard({ product }) {
@@ -23,16 +24,16 @@ function ProductCard({ product }) {
   };
 
   return (
-    <div className="product-card">
+    <article className="product-card">
       <Link
         to={`/products/${product.id}`}
         className="product-card-link"
       >
         <div className="product-card-image-wrapper">
           <img
-            src={product.imageUrl}
-            alt={product.name}
-            className="product-card-image"
+              src={getImageUrl(product.imageUrl)}
+              alt={product.name}
+              className="product-card-image"
           />
 
           {isOutOfStock && (
@@ -43,9 +44,15 @@ function ProductCard({ product }) {
         </div>
 
         <div className="product-card-info">
-          <h3 className="product-card-name">
-            {product.name}
-          </h3>
+          <div className="product-card-details">
+            <h3 className="product-card-name">
+              {product.name}
+            </h3>
+
+            <span className="product-card-category">
+              BLOOM FLOWERS
+            </span>
+          </div>
 
           <p className="product-card-price">
             {product.price} ₺
@@ -54,6 +61,7 @@ function ProductCard({ product }) {
       </Link>
 
       <button
+        type="button"
         className="product-card-btn"
         disabled={isOutOfStock}
         onClick={handleAddToCart}
@@ -66,7 +74,7 @@ function ProductCard({ product }) {
           {cartMessage}
         </p>
       )}
-    </div>
+    </article>
   );
 }
 

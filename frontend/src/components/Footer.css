@@ -1,65 +1,58 @@
 .footer {
-  background-color: var(--color-primary);
-  color: var(--color-neutral-100);
-  padding: var(--spacing-2xl) var(--spacing-xl) var(--spacing-md);
-  margin-top: var(--spacing-2xl);
+  background-color: var(--color-ink);
+  color: var(--color-neutral-200, rgba(251, 249, 244, 0.72));
 }
 
-.footer-content {
+.footer-top {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1.2fr 1fr 1fr;
+  align-items: start;
   gap: var(--spacing-xl);
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-3xl) var(--spacing-xl) var(--spacing-xl);
+  border-bottom: 1px solid rgba(251, 249, 244, 0.15);
 }
 
-.footer-brand h3 {
-  color: var(--color-white);
-  font-size: 1.3rem;
-  margin-bottom: var(--spacing-sm);
+.footer-logo {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: var(--text-xl);
+  color: var(--color-porcelain);
 }
 
-.footer-links h4,
-.footer-contact h4 {
-  color: var(--color-white);
-  font-size: 1rem;
-  margin-bottom: var(--spacing-sm);
-}
-
-.footer-links {
+.footer-nav,
+.footer-contact {
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
-.footer-links a {
-  color: var(--color-neutral-100);
+.footer-nav a,
+.footer-contact a,
+.footer-contact span {
+  color: rgba(251, 249, 244, 0.72);
+  font-size: var(--text-sm);
   text-decoration: none;
-  margin-bottom: var(--spacing-xs);
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
+  transition: color var(--transition-base);
 }
 
-.footer-links a:hover {
-  color: var(--color-white);
-}
-
-.footer-contact p {
-  font-size: 0.9rem;
-  margin-bottom: var(--spacing-xs);
+.footer-nav a:hover,
+.footer-contact a:hover {
+  color: var(--color-gold);
 }
 
 .footer-bottom {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--spacing-md) var(--spacing-xl);
   text-align: center;
-  padding-top: var(--spacing-md);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  font-size: 0.8rem;
-  color: var(--color-neutral-300);
+  font-size: var(--text-xs);
+  color: rgba(251, 249, 244, 0.45);
 }
 
-/* Mobile — 3 sütun yerine alt alta */
 @media (max-width: 768px) {
-  .footer-content {
+  .footer-top {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
   }

@@ -15,6 +15,7 @@ import AdminRoute from '../components/AdminRoute';
 import AdminProducts from '../pages/admin/AdminProducts';
 import AdminCategories from '../pages/admin/AdminCategories';
 import AdminOrders from '../pages/admin/AdminOrders';
+import AdminOrderDetail from '../pages/admin/AdminOrderDetail';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 
 function AppRoutes() {
@@ -32,12 +33,18 @@ function AppRoutes() {
 
       {/* Customer Routes */}
       <Route path="/checkout" element={<Checkout />} />
+
       <Route
         path="/order-confirmation/:orderNumber"
         element={<OrderConfirmation />}
       />
+
       <Route path="/orders" element={<Orders />} />
-      <Route path="/orders/:id" element={<OrderDetail />} />
+
+      <Route
+        path="/orders/:id"
+        element={<OrderDetail />}
+      />
 
       {/* Admin Routes */}
       <Route
@@ -67,13 +74,22 @@ function AppRoutes() {
         }
       />
 
-      <Route 
-        path="/admin/dashboard" 
+      <Route
+        path="/admin/orders/:id"
         element={
           <AdminRoute>
-              <AdminDashboard />
-            </AdminRoute>
-          } 
+            <AdminOrderDetail />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/dashboard"
+        element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        }
       />
     </Routes>
   );
