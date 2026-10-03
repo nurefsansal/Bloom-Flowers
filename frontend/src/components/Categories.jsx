@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { getCategories } from '../services/categoryService';
-import CategoryCard from './CategoryCard';
 import './Categories.css';
 
 function Categories() {
@@ -30,9 +29,21 @@ function Categories() {
   if (loading) {
     return (
       <section className="categories">
-        <h2 className="categories-title">Kategoriler</h2>
+        <div className="categories-heading">
+          <div>
+            <span className="categories-eyebrow">
+              Çiçek dünyasını keşfet
+            </span>
 
-        <p>Kategoriler yükleniyor...</p>
+            <h2 className="categories-title">
+              Kategoriler
+            </h2>
+          </div>
+        </div>
+
+        <p className="categories-message">
+          Kategoriler yükleniyor...
+        </p>
       </section>
     );
   }
@@ -40,23 +51,70 @@ function Categories() {
   if (error) {
     return (
       <section className="categories">
-        <h2 className="categories-title">Kategoriler</h2>
+        <div className="categories-heading">
+          <div>
+            <span className="categories-eyebrow">
+              Çiçek dünyasını keşfet
+            </span>
 
-        <p>{error}</p>
+            <h2 className="categories-title">
+              Kategoriler
+            </h2>
+          </div>
+        </div>
+
+        <p className="categories-message">
+          {error}
+        </p>
       </section>
     );
   }
 
   return (
     <section className="categories">
-      <h2 className="categories-title">Kategoriler</h2>
+      <div className="categories-heading">
+        <div>
+          <span className="categories-eyebrow">
+            Çiçek dünyasını keşfet
+          </span>
 
-      <div className="categories-grid">
-        {categories.map((category) => (
-          <CategoryCard
+          <h2 className="categories-title">
+            Kategoriler
+          </h2>
+        </div>
+
+        <p className="categories-intro">
+          Her duyguya, her ana ve her hikâyeye
+          eşlik eden özel çiçekler.
+        </p>
+      </div>
+
+      <div className="categories-list">
+        {categories.map((category, index) => (
+          <div
+            className="category-row"
             key={category.id}
-            category={category}
-          />
+          >
+            <span className="category-index">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+
+            <div className="category-row-image-wrapper">
+              <img
+                src={category.imageUrl}
+                alt={category.name}
+                className="category-row-image"
+              />
+            </div>
+
+            <span className="category-row-name">
+              {category.name}
+            </span>
+
+            <span className="category-row-arrow">
+              →
+            </span>
+          </div>
         ))}
       </div>
     </section>
@@ -64,4 +122,3 @@ function Categories() {
 }
 
 export default Categories;
-

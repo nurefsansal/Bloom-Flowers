@@ -29,7 +29,7 @@ namespace backend.Controllers
         }
 
         // CUSTOMER
- 
+
         [HttpPost]
         public async Task<ActionResult<OrderDto>> Create(
             CreateOrderDto dto)
@@ -97,6 +97,23 @@ namespace backend.Controllers
                 await _orderService.GetAllOrdersAsync();
 
             return Ok(orders);
+        }
+
+        [HttpGet("admin/{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<OrderDto>>
+            GetByIdForAdmin(int id)
+        {
+            var order =
+                await _orderService.GetOrderByIdForAdminAsync(
+                    id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(order);
         }
 
         [HttpPut("admin/{id}/status")]

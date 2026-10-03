@@ -16,6 +16,9 @@ namespace backend.Services.Interfaces
             int userId,
             int orderId);
 
+        Task<OrderDto?> GetOrderByIdForAdminAsync(
+            int orderId);
+
         Task<List<OrderDto>> GetAllOrdersAsync();
 
         Task<OrderDto?> UpdateOrderStatusAsync(

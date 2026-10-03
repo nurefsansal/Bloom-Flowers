@@ -62,7 +62,7 @@ namespace backend.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ProductDto>> Create(
-            CreateProductDto dto)
+            [FromForm] CreateProductDto dto)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ProductDto>> Update(
             int id,
-            UpdateProductDto dto)
+            [FromForm] UpdateProductDto dto)
         {
             try
             {

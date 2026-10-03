@@ -139,6 +139,26 @@ namespace backend.Services
             return MapToDto(order);
         }
 
+        public async Task<OrderDto?> GetOrderByIdForAdminAsync(
+            int orderId)
+        {
+            var order =
+                await _orderRepository.GetByIdWithUserAsync(
+                    orderId);
+
+            if (order == null)
+            {
+                return null;
+            }
+
+            var dto = MapToDto(order);
+
+            dto.CustomerName = order.User.FullName;
+            dto.CustomerEmail = order.User.Email;
+
+            return dto;
+        }
+
         public async Task<List<OrderDto>> GetAllOrdersAsync()
         {
             var orders =
@@ -201,12 +221,17 @@ namespace backend.Services
                 Id = order.Id,
                 OrderNumber = order.OrderNumber,
                 Status = order.Status.ToString(),
+
                 DeliveryDate = order.DeliveryDate,
                 DeliveryTimeSlot = order.DeliveryTimeSlot,
+
                 OrderNote = order.OrderNote,
+
                 DeliveryCity = order.DeliveryCity,
                 DeliveryDistrict = order.DeliveryDistrict,
                 DeliveryFullAddress = order.DeliveryFullAddress,
+                DeliveryPhoneNumber = order.DeliveryPhoneNumber,
+
                 TotalPrice = order.TotalPrice,
                 CreatedAt = order.CreatedAt,
 

@@ -8,6 +8,8 @@ namespace backend.Repositories.Interfaces
 
         Task<Order?> GetByIdAsync(int id);
 
+        Task<Order?> GetByIdWithUserAsync(int id);
+
         Task<int> GetOrderCountAsync();
 
         Task<Order> CreateAsync(Order order);
@@ -17,5 +19,13 @@ namespace backend.Repositories.Interfaces
         Task<Order?> UpdateStatusAsync(
             int id,
             OrderStatus status);
+
+        // Dashboard analizleri
+        Task<List<(int Year, int Month, decimal Revenue)>> GetMonthlySalesAsync();
+
+        Task<List<(OrderStatus Status, int Count)>> GetOrderStatusCountsAsync();
+
+        Task<List<(int ProductId, string ProductName, int TotalQuantity, decimal TotalRevenue)>>
+            GetTopProductsAsync(int take);
     }
 }

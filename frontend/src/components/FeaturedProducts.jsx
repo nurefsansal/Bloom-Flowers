@@ -30,11 +30,21 @@ function FeaturedProducts() {
   if (loading) {
     return (
       <section className="featured-products">
-        <h2 className="featured-products-title">
-          Öne Çıkan Ürünler
-        </h2>
+        <div className="featured-products-heading">
+          <div>
+            <span className="featured-products-eyebrow">
+              Bloom seçkisi
+            </span>
 
-        <p>Ürünler yükleniyor...</p>
+            <h2 className="featured-products-title">
+              Öne Çıkanlar
+            </h2>
+          </div>
+        </div>
+
+        <p className="featured-products-message">
+          Ürünler yükleniyor...
+        </p>
       </section>
     );
   }
@@ -42,20 +52,42 @@ function FeaturedProducts() {
   if (error) {
     return (
       <section className="featured-products">
-        <h2 className="featured-products-title">
-          Öne Çıkan Ürünler
-        </h2>
+        <div className="featured-products-heading">
+          <div>
+            <span className="featured-products-eyebrow">
+              Bloom seçkisi
+            </span>
 
-        <p>{error}</p>
+            <h2 className="featured-products-title">
+              Öne Çıkanlar
+            </h2>
+          </div>
+        </div>
+
+        <p className="featured-products-message">
+          {error}
+        </p>
       </section>
     );
   }
 
   return (
     <section className="featured-products">
-      <h2 className="featured-products-title">
-        Öne Çıkan Ürünler
-      </h2>
+      <div className="featured-products-heading">
+        <div>
+          <span className="featured-products-eyebrow">
+            Bloom seçkisi
+          </span>
+
+          <h2 className="featured-products-title">
+            Öne Çıkanlar
+          </h2>
+        </div>
+
+        <p className="featured-products-intro">
+          Mevsimin ruhunu taşıyan, özenle seçilmiş çiçek tasarımları.
+        </p>
+      </div>
 
       <div className="featured-products-grid">
         {products.map((product) => (
@@ -70,4 +102,3 @@ function FeaturedProducts() {
 }
 
 export default FeaturedProducts;
-

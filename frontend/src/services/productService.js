@@ -11,12 +11,41 @@ export async function getProductById(id) {
 }
 
 export async function createProduct(data) {
-  const response = await apiClient.post('/products', data);
+  const formData = new FormData();
+
+  formData.append('Name', data.name);
+  formData.append('Description', data.description || '');
+  formData.append('Price', data.price);
+  formData.append('StockQuantity', data.stockQuantity);
+  formData.append('CategoryId', data.categoryId);
+
+  if (data.image) {
+    formData.append('Image', data.image);
+  }
+
+  const response = await apiClient.post('/products', formData);
+
   return response.data;
 }
 
 export async function updateProduct(id, data) {
-  const response = await apiClient.put(`/products/${id}`, data);
+  const formData = new FormData();
+
+  formData.append('Name', data.name);
+  formData.append('Description', data.description || '');
+  formData.append('Price', data.price);
+  formData.append('StockQuantity', data.stockQuantity);
+  formData.append('CategoryId', data.categoryId);
+
+  if (data.image) {
+    formData.append('Image', data.image);
+  }
+
+  const response = await apiClient.put(
+    `/products/${id}`,
+    formData
+  );
+
   return response.data;
 }
 

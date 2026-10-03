@@ -34,54 +34,124 @@ function OrderDetail() {
   }, [id]);
 
   if (loading) {
-    return <p className="order-detail-loading">Yükleniyor...</p>;
+    return (
+      <main className="order-detail-message">
+        <p>Sipariş bilgileriniz yükleniyor...</p>
+      </main>
+    );
   }
 
   if (notFound || !order) {
     return (
-      <div className="order-detail-not-found">
-        <h1>Sipariş bulunamadı.</h1>
-        <Link to="/orders">Siparişlerime dön</Link>
-      </div>
+      <main className="order-detail-message">
+        <div className="order-detail-not-found">
+          <span className="order-detail-eyebrow">BLOOM FLOWERS / ORDER</span>
+          <h1>Sipariş bulunamadı.</h1>
+          <p>Aradığınız sipariş bilgilerine şu anda ulaşılamıyor.</p>
+          <Link to="/orders" className="order-detail-back-link">
+            Siparişlerime Dön <span>→</span>
+          </Link>
+        </div>
+      </main>
     );
   }
 
   return (
-    <div className="order-detail-page">
-      <Link to="/orders" className="order-detail-back">← Siparişlerime dön</Link>
+    <main className="order-detail-page">
+      <Link to="/orders" className="order-detail-back">
+        <span>←</span> Siparişlerime dön
+      </Link>
 
-      <div className="order-detail-header">
-        <h1>{order.orderNumber}</h1>
+      <header className="order-detail-header">
+        <div>
+          <span className="order-detail-eyebrow">BLOOM FLOWERS / SİPARİŞ DETAYI </span>
+          <h1>{order.orderNumber}</h1>
+          <p className="order-detail-intro">
+            Siparişinizin teslimat ve ürün bilgilerini buradan inceleyebilirsiniz.
+          </p>
+        </div>
+
         <span className={`order-status order-status-${order.status.toLowerCase()}`}>
           {STATUS_LABELS[order.status] || order.status}
         </span>
-      </div>
+      </header>
 
-      <div className="order-detail-section">
-        <h2>Teslimat Bilgileri</h2>
-        <p>{order.deliveryCity} / {order.deliveryDistrict}</p>
-        <p>{order.deliveryFullAddress}</p>
-        <p>Tarih: {new Date(order.deliveryDate).toLocaleDateString('tr-TR')}</p>
-        <p>Saat: {order.deliveryTimeSlot}</p>
-        {order.orderNote && <p>Not: {order.orderNote}</p>}
-      </div>
-
-      <div className="order-detail-section">
-        <h2>Ürünler</h2>
-        {order.items.map((item) => (
-          <div className="order-detail-item" key={item.productId}>
-            <span>{item.productName} × {item.quantity}</span>
-            <span>{item.unitPrice * item.quantity} ₺</span>
+      <div className="order-detail-content">
+        <section className="order-detail-section">
+          <div className="order-detail-section-heading">
+            <span className="order-detail-section-number">01</span>
+            <h2>Teslimat Bilgileri</h2>
           </div>
-        ))}
+
+          <div className="order-detail-delivery">
+            <div className="order-detail-info-row">
+              <span>Adres</span>
+              <p>{order.deliveryCity} / {order.deliveryDistrict}</p>
+            </div>
+
+            <div className="order-detail-info-row">
+              <span>Açık adres</span>
+              <p>{order.deliveryFullAddress}</p>
+            </div>
+
+            <div className="order-detail-info-grid">
+              <div className="order-detail-info-row">
+                <span>Teslimat tarihi</span>
+                <p>{new Date(order.deliveryDate).toLocaleDateString('tr-TR')}</p>
+              </div>
+
+              <div className="order-detail-info-row">
+                <span>Teslimat saati</span>
+                <p>{order.deliveryTimeSlot}</p>
+              </div>
+            </div>
+
+            {order.orderNote && (
+              <div className="order-detail-info-row order-detail-note">
+                <span>Sipariş notu</span>
+                <p>{order.orderNote}</p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="order-detail-section">
+          <div className="order-detail-section-heading">
+            <span className="order-detail-section-number">02</span>
+            <h2>Sipariş İçeriği</h2>
+          </div>
+
+          <div className="order-detail-items">
+            {order.items.map((item) => (
+              <div className="order-detail-item" key={item.productId}>
+                <div className="order-detail-item-info">
+                  <span className="order-detail-item-name">{item.productName}</span>
+                  <span className="order-detail-item-quantity">
+                    {item.quantity} adet × {item.unitPrice} ₺
+                  </span>
+                </div>
+
+                <span className="order-detail-item-price">
+                  {item.unitPrice * item.quantity} ₺
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="order-detail-total">
+            <span>Genel Toplam</span>
+            <strong>{order.totalPrice} ₺</strong>
+          </div>
+        </section>
       </div>
 
-      <div className="order-detail-total">
-        <span>Toplam</span>
-        <span>{order.totalPrice} ₺</span>
-      </div>
-    </div>
+      <footer className="order-detail-footer">
+        <span>Her dal bir hikâye anlatır.</span>
+        <Link to="/products">Koleksiyonu keşfet →</Link>
+      </footer>
+    </main>
   );
 }
 
 export default OrderDetail;
+

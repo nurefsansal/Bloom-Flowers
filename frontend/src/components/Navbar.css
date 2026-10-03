@@ -1,117 +1,335 @@
 .navbar {
+  position: relative;
+  z-index: var(--z-sticky);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-md) var(--spacing-xl);
-  background-color: var(--color-cream);
-  border-bottom: 1px solid var(--color-neutral-300);
+
+  width: 100%;
+  padding: 22px var(--container-padding);
+
+  background: var(--color-parchment);
+  border-bottom: 1px solid var(--color-neutral-200);
 }
 
+/* Logo */
+
 .navbar-logo {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  color: var(--color-ink);
   text-decoration: none;
+  line-height: 0.85;
 }
+
+.navbar-logo span {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.navbar-logo small {
+  margin-top: 7px;
+
+  font-family: var(--font-body);
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+
+  color: var(--color-moss);
+}
+
+/* Ana navigasyon */
 
 .navbar-links {
   display: flex;
-  gap: var(--spacing-lg);
+  align-items: center;
+  gap: 34px;
 }
 
 .navbar-links a {
+  position: relative;
+
+  padding: 5px 0;
+
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+  font-weight: 400;
+
   text-decoration: none;
-  color: var(--color-text);
-  font-size: 0.95rem;
-  transition: color 0.2s ease;
 }
 
-.navbar-links a:hover {
-  color: var(--color-primary);
+.navbar-links a::after {
+  content: '';
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 0;
+  height: 1px;
+
+  background: var(--color-moss);
+
+  transition: width var(--transition-base);
 }
+
+.navbar-links a:hover::after {
+  width: 100%;
+}
+
+/* Sağ taraf */
 
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: 12px;
 }
+
+/* İkonlar */
 
 .navbar-icon-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.navbar-user {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-}
+  justify-content: center;
 
-.navbar-orders-link {
-  font-size: 0.9rem;
-  color: var(--color-primary);
-  text-decoration: none;
-}
+  width: 38px;
+  height: 38px;
 
-.navbar-orders-link:hover {
-  text-decoration: underline;
-}
-
-.navbar-user-name {
-  font-size: 0.9rem;
-  color: var(--color-text);
-}
-
-.navbar-logout-btn {
-  border: none;
-  background: none;
-  color: var(--color-primary);
-  font-size: 0.9rem;
-  cursor: pointer;
   padding: 0;
+
+  color: var(--color-ink);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  transition:
+    color var(--transition-base),
+    transform var(--transition-base);
 }
 
-.navbar-logout-btn:hover {
-  text-decoration: underline;
+.navbar-icon-btn:hover {
+  color: var(--color-moss-light);
+  transform: translateY(-2px);
 }
 
-/* Mobile */
+.navbar-icon-btn svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.navbar-account-btn.is-active {
+  color: var(--color-moss);
+}
+
+/* Hesap alanı */
+
+.navbar-account {
+  position: relative;
+}
+
+/* Dropdown */
+
+.navbar-account-menu {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+
+  width: 270px;
+
+  padding: 20px;
+
+  background: var(--color-porcelain);
+  border: 1px solid var(--color-neutral-200);
+  box-shadow: var(--shadow-md);
+
+  animation: navbarMenuIn 0.18s ease;
+}
+
+@keyframes navbarMenuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dropdown üst bilgi */
+
+.navbar-account-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  padding-bottom: 16px;
+}
+
+.navbar-account-label {
+  color: var(--color-gold);
+
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+}
+
+.navbar-account-email {
+  color: var(--color-ink);
+
+  font-size: var(--text-sm);
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+/* Dropdown bağlantıları */
+
+.navbar-account-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-account-links a {
+  display: block;
+
+  padding: 10px 0;
+
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+
+  text-decoration: none;
+
+  transition:
+    color var(--transition-fast),
+    padding-left var(--transition-fast);
+}
+
+.navbar-account-links a:hover {
+  padding-left: 4px;
+  color: var(--color-moss);
+}
+
+/* Ayırıcı */
+
+.navbar-account-divider {
+  width: 100%;
+  height: 1px;
+
+  margin: 6px 0 10px;
+
+  background: var(--color-neutral-200);
+}
+
+/* Çıkış */
+
+.navbar-account-logout {
+  width: 100%;
+
+  padding: 10px 0;
+
+  color: var(--color-error);
+  background: transparent;
+  border: none;
+
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    color var(--transition-fast),
+    padding-left var(--transition-fast);
+}
+
+.navbar-account-logout:hover {
+  padding-left: 4px;
+  color: #873b35;
+}
+
+/* Tablet */
+
+@media (max-width: 1100px) {
+  .navbar {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .navbar-links {
+    gap: 22px;
+  }
+}
+
+/* Küçük tablet / mobil */
 
 @media (max-width: 768px) {
   .navbar {
     flex-wrap: wrap;
-    gap: var(--spacing-sm);
+    gap: 18px;
+
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+
+  .navbar-logo span {
+    font-size: 1.75rem;
   }
 
   .navbar-links {
     order: 3;
+
     width: 100%;
+
     justify-content: center;
-    gap: var(--spacing-md);
+    gap: 22px;
+
+    padding-top: 4px;
+
+    border-top: 1px solid var(--color-neutral-200);
   }
 
-  .navbar-user {
-    flex-wrap: wrap;
-    justify-content: flex-end;
+  .navbar-links a {
+    font-size: var(--text-xs);
+  }
+
+  .navbar-account-menu {
+    right: -5px;
   }
 }
 
-.navbar-admin-links {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
+/* Telefon */
+
+@media (max-width: 480px) {
+  .navbar-links {
+    gap: 14px;
+  }
+
+  .navbar-links a {
+    font-size: 0.7rem;
+  }
+
+  .navbar-actions {
+    gap: 6px;
+  }
+
+  .navbar-account-menu {
+    position: fixed;
+    top: 76px;
+    right: 12px;
+    left: 12px;
+
+    width: auto;
+  }
 }
 
-.navbar-admin-links a {
-  font-size: 0.9rem;
-  color: var(--color-primary);
-  text-decoration: none;
-}
-
-.navbar-admin-links a:hover {
-  text-decoration: underline;
-}

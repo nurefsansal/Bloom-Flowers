@@ -21,9 +21,11 @@ function Products() {
           getProducts(),
           getCategories(),
         ]);
+
         setProducts(productsData);
         setCategories(categoriesData);
       } catch (err) {
+        console.error('Ürünler alınamadı:', err);
         setError('Ürünler yüklenirken bir hata oluştu.');
       } finally {
         setLoading(false);
@@ -37,12 +39,16 @@ function Products() {
     let result = [...products];
 
     if (selectedCategory !== 'Tümü') {
-      result = result.filter((p) => p.categoryName === selectedCategory);
+      result = result.filter(
+        (product) => product.categoryName === selectedCategory
+      );
     }
 
     if (searchTerm.trim() !== '') {
-      result = result.filter((p) =>
-        p.name.toLowerCase().includes(searchTerm.toLowerCase())
+      result = result.filter((product) =>
+        product.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
       );
     }
 
@@ -56,58 +62,170 @@ function Products() {
   }, [products, selectedCategory, searchTerm, sortOrder]);
 
   if (loading) {
-    return <p className="products-loading">Ürünler yükleniyor...</p>;
+    return (
+      <main className="products-page">
+        <div className="products-page-heading">
+          <span className="products-eyebrow">
+            Bloom koleksiyonu
+          </span>
+
+          <h1 className="products-page-title">
+            Çiçekler & Tasarımlar
+          </h1>
+
+          <p className="products-page-intro">
+            Mevsimin en güzel çiçeklerinden özenle hazırlanan
+            Bloom tasarımlarını keşfedin.
+          </p>
+        </div>
+
+        <p className="products-message">
+          Ürünler yükleniyor...
+        </p>
+      </main>
+    );
   }
 
   if (error) {
-    return <p className="products-error">{error}</p>;
+    return (
+      <main className="products-page">
+        <div className="products-page-heading">
+          <span className="products-eyebrow">
+            Bloom koleksiyonu
+          </span>
+
+          <h1 className="products-page-title">
+            Çiçekler & Tasarımlar
+          </h1>
+        </div>
+
+        <p className="products-message products-error">
+          {error}
+        </p>
+      </main>
+    );
   }
 
   return (
-    <div className="products-page">
-      <h1 className="products-page-title">Ürünlerimiz</h1>
+    <main className="products-page">
+      <header className="products-page-heading">
+        <span className="products-eyebrow">
+          Bloom koleksiyonu
+        </span>
 
-      <div className="products-filters">
-        <input
-          type="text"
-          placeholder="Ürün ara..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="products-search"
-        />
+        <h1 className="products-page-title">
+          Çiçekler & Tasarımlar
+        </h1>
 
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="products-select"
-        >
-          <option value="Tümü">Tüm Kategoriler</option>
-          {categories.map((cat) => (
-            <option key={cat.id} value={cat.name}>{cat.name}</option>
-          ))}
-        </select>
+        <p className="products-page-intro">
+          Mevsimin en güzel çiçeklerinden özenle hazırlanan
+          Bloom tasarımlarını keşfedin.
+        </p>
+      </header>
 
-        <select
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
-          className="products-select"
-        >
-          <option value="default">Sıralama</option>
-          <option value="price-asc">Fiyat: Artan</option>
-          <option value="price-desc">Fiyat: Azalan</option>
-        </select>
-      </div>
+      <section className="products-toolbar">
+        <div className="products-result-count">
+          <span className="products-result-number">
+            {filteredProducts.length}
+          </span>
+
+          <span>ürün</span>
+        </div>
+
+        <div className="products-filters">
+          <div className="products-search-wrapper">
+            <label htmlFor="product-search">
+              Ara
+            </label>
+
+            <input
+              id="product-search"
+              type="text"
+              placeholder="Çiçek ara..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="products-search"
+            />
+          </div>
+
+          <div className="products-select-wrapper">
+            <label htmlFor="category-filter">
+              Kategori
+            </label>
+
+            <select
+              id="category-filter"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="products-select"
+            >
+              <option value="Tümü">
+                Tüm Kategoriler
+              </option>
+
+              {categories.map((category) => (
+                <option
+                  key={category.id}
+                  value={category.name}
+                >
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="products-select-wrapper">
+            <label htmlFor="sort-filter">
+              Sırala
+            </label>
+
+            <select
+              id="sort-filter"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="products-select"
+            >
+              <option value="default">
+                Varsayılan
+              </option>
+
+              <option value="price-asc">
+                Fiyat: Artan
+              </option>
+
+              <option value="price-desc">
+                Fiyat: Azalan
+              </option>
+            </select>
+          </div>
+        </div>
+      </section>
 
       {filteredProducts.length === 0 ? (
-        <p className="products-empty">Aradığınız kriterlere uygun ürün bulunamadı.</p>
+        <div className="products-empty">
+          <span className="products-empty-eyebrow">
+            Bloom koleksiyonu
+          </span>
+
+          <h2>
+            Aradığınız çiçek bulunamadı.
+          </h2>
+
+          <p>
+            Farklı bir arama veya kategori deneyebilirsiniz.
+          </p>
+        </div>
       ) : (
         <div className="products-grid">
           {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              key={product.id}
+              product={product}
+            />
           ))}
         </div>
       )}
-    </div>
+    </main>
   );
 }
 

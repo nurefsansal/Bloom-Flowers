@@ -20,6 +20,11 @@ export async function getAllOrders() {
   return response.data;
 }
 
+export async function getOrderByIdAdmin(id) {
+  const response = await apiClient.get(`/orders/admin/${id}`);
+  return response.data;
+}
+
 export async function updateOrderStatus(id, status) {
   const response = await apiClient.put(
     `/orders/admin/${id}/status`,

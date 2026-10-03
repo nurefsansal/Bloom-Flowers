@@ -4,30 +4,25 @@ import './Footer.css';
 function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-content">
-        <div className="footer-brand">
-          <h3>Bloom Flowers</h3>
-          <p>Her an için bir çiçek.</p>
-        </div>
+      <div className="footer-top">
+        <span className="footer-logo">Bloom Flowers</span>
 
-        <div className="footer-links">
-          <h4>Hızlı Linkler</h4>
+        <nav className="footer-nav">
           <Link to="/">Ana Sayfa</Link>
           <Link to="/products">Ürünler</Link>
           <a href="#about">Hakkımızda</a>
           <a href="#contact">İletişim</a>
-        </div>
+        </nav>
 
         <div className="footer-contact">
-          <h4>İletişim</h4>
-          <p>info@bloomflowers.com</p>
-          <p>+90 5xx xxx xx xx</p>
-          <p>Çankaya, Ankara</p>
+          <a href="mailto:info@bloomflowers.com">info@bloomflowers.com</a>
+          <a href="tel:+905000000000">+90 5xx xxx xx xx</a>
+          <span>Çankaya, Ankara</span>
         </div>
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Bloom Flowers. Tüm hakları saklıdır.</p>
+        <span>&copy; {new Date().getFullYear()} Bloom Flowers. Tüm hakları saklıdır.</span>
       </div>
     </footer>
   );

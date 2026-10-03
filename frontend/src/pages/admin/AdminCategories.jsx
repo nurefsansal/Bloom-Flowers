@@ -30,7 +30,6 @@ function AdminCategories() {
       setError('');
 
       const data = await getCategories();
-
       setCategories(data);
     } catch (err) {
       console.error('Kategoriler alınamadı:', err);
@@ -42,35 +41,21 @@ function AdminCategories() {
 
   function handleChange(e) {
     const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   }
 
   function startEdit(category) {
     setEditingId(category.id);
-
     setFormData({
       name: category.name,
       description: category.description || '',
     });
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function cancelEdit() {
     setEditingId(null);
-
-    setFormData({
-      name: '',
-      description: '',
-    });
-
+    setFormData({ name: '', description: '' });
     setError('');
   }
 
@@ -89,22 +74,15 @@ function AdminCategories() {
       await loadData();
     } catch (err) {
       console.error('Kategori kaydedilemedi:', err);
-
       setError(
-        err.response?.data?.message ||
-          'Kategori kaydedilirken bir hata oluştu.'
+        err.response?.data?.message || 'Kategori kaydedilirken bir hata oluştu.'
       );
     }
   }
 
   async function handleDelete(id) {
-    const confirmed = window.confirm(
-      'Bu kategoriyi silmek istediğinize emin misiniz?'
-    );
-
-    if (!confirmed) {
-      return;
-    }
+    const confirmed = window.confirm('Bu kategoriyi silmek istediğinize emin misiniz?');
+    if (!confirmed) return;
 
     setError('');
 
@@ -113,99 +91,143 @@ function AdminCategories() {
       await loadData();
     } catch (err) {
       console.error('Kategori silinemedi:', err);
-
       setError(
-        err.response?.data?.message ||
-          'Kategori silinirken bir hata oluştu.'
+        err.response?.data?.message || 'Kategori silinirken bir hata oluştu.'
       );
     }
   }
 
   if (loading) {
-    return <p>Yükleniyor...</p>;
+    return <p className="admin-dashboard-message">Kategoriler yükleniyor...</p>;
   }
 
   return (
-    <div className="admin-page">
+    <div className="admin-page admin-products">
       <AdminNav />
 
-      <h1>Kategori Yönetimi</h1>
-
-      {error && <p className="admin-error">{error}</p>}
-
-      <form className="admin-form" onSubmit={handleSubmit}>
-        <h2>
-          {editingId
-            ? 'Kategoriyi Düzenle'
-            : 'Yeni Kategori Ekle'}
-        </h2>
-
-        <input
-          name="name"
-          placeholder="Kategori Adı"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-
-        <textarea
-          name="description"
-          placeholder="Açıklama"
-          value={formData.description}
-          onChange={handleChange}
-        />
-
-        <div className="admin-form-actions">
-          <button type="submit">
-            {editingId ? 'Güncelle' : 'Ekle'}
-          </button>
-
-          {editingId && (
-            <button
-              type="button"
-              onClick={cancelEdit}
-            >
-              Vazgeç
-            </button>
-          )}
+      <div className="admin-products-header">
+        <div>
+          <span className="admin-dashboard-eyebrow">Bloom Flowers / Yönetim</span>
+          <h1 className="admin-dashboard-title">Kategoriler</h1>
+          <p className="admin-dashboard-subtitle">
+            Mağazanızdaki kategorileri yönetin ve yeni kategoriler ekleyin.
+          </p>
         </div>
-      </form>
 
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th>Ad</th>
-            <th>Açıklama</th>
-            <th>İşlem</th>
-          </tr>
-        </thead>
+        <div className="admin-products-count">
+          <span>{categories.length}</span>
+          <small>Kategori</small>
+        </div>
+      </div>
 
-        <tbody>
-          {categories.map((category) => (
-            <tr key={category.id}>
-              <td>{category.name}</td>
+      {error && <p className="admin-error admin-products-error">{error}</p>}
 
-              <td>{category.description}</td>
+      <section className="admin-product-form-section">
+        <div className="admin-product-section-heading">
+          <div>
+            <span className="admin-section-eyebrow">
+              {editingId ? 'Kategori Düzenleme' : 'Yeni Kategori'}
+            </span>
+            <h2>{editingId ? 'Kategori Bilgilerini Güncelle' : 'Yeni Kategori Ekle'}</h2>
+          </div>
+        </div>
 
-              <td>
-                <button
-                  type="button"
-                  onClick={() => startEdit(category)}
-                >
-                  Düzenle
-                </button>
+        <form className="admin-product-form" onSubmit={handleSubmit}>
+          <div className="admin-product-form-grid">
+            <div className="admin-form-field admin-form-field-wide">
+              <label htmlFor="category-name">Kategori Adı</label>
+              <input
+                id="category-name"
+                name="name"
+                placeholder="Örneğin: Buketler"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-                <button
-                  type="button"
-                  onClick={() => handleDelete(category.id)}
-                >
-                  Sil
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            <div className="admin-form-field admin-form-field-wide">
+              <label htmlFor="category-description">Açıklama</label>
+              <textarea
+                id="category-description"
+                name="description"
+                placeholder="Kategori hakkında kısa bir açıklama..."
+                value={formData.description}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <div className="admin-product-form-actions">
+            <button type="submit" className="admin-primary-action">
+              {editingId ? 'Değişiklikleri Kaydet' : 'Kategori Ekle'}
+            </button>
+
+            {editingId && (
+              <button type="button" className="admin-secondary-action" onClick={cancelEdit}>
+                Vazgeç
+              </button>
+            )}
+          </div>
+        </form>
+      </section>
+
+      <section className="admin-products-section">
+        <div className="admin-product-section-heading">
+          <div>
+            <span className="admin-section-eyebrow">Kategori Listesi</span>
+            <h2>Tüm Kategoriler</h2>
+          </div>
+        </div>
+
+        <div className="admin-products-table-wrapper">
+          <table className="admin-table admin-products-table">
+            <thead>
+              <tr>
+                <th>Ad</th>
+                <th>Açıklama</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {categories.map((category) => (
+                <tr key={category.id}>
+                  <td>
+                    <span className="admin-product-name">{category.name}</span>
+                  </td>
+
+                  <td>
+                    <span className="admin-product-description" style={{ maxWidth: 'none', whiteSpace: 'normal' }}>
+                      {category.description}
+                    </span>
+                  </td>
+
+                  <td>
+                    <div className="admin-product-actions">
+                      <button
+                        type="button"
+                        className="admin-edit-button"
+                        onClick={() => startEdit(category)}
+                      >
+                        Düzenle
+                      </button>
+
+                      <button
+                        type="button"
+                        className="admin-delete-button"
+                        onClick={() => handleDelete(category.id)}
+                      >
+                        Sil
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 }

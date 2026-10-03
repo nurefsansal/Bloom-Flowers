@@ -34,50 +34,113 @@ function Register() {
   }
 
   return (
-    <div className="auth-page">
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <h1>Kayıt Ol</h1>
+    <main className="auth-page">
+      <div className="auth-layout">
+        <section className="auth-intro">
+          <span className="auth-eyebrow">BLOOM FLOWERS</span>
 
-        {error && <p className="auth-error">{error}</p>}
+          <h1 className="auth-title">
+            Bloom
+            <br />
+            dünyasına
+            <br />
+            katıl.
+          </h1>
 
-        <input
-          type="text"
-          placeholder="Ad Soyad"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Şifre"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength={6}
-        />
-        <input
-          type="tel"
-          placeholder="Telefon (opsiyonel)"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-        />
+          <p className="auth-description">
+            Kendi Bloom hesabınızı oluşturarak
+            siparişlerinizi kolayca takip edin ve
+            özel anlarınız için çiçekleri keşfedin.
+          </p>
+        </section>
 
-        <button type="submit" disabled={loading}>
-          {loading ? 'Kayıt olunuyor...' : 'Kayıt Ol'}
-        </button>
+        <section className="auth-form-section">
+          <form className="auth-form" onSubmit={handleSubmit}>
+            {error && (
+              <p className="auth-error">
+                {error}
+              </p>
+            )}
 
-        <p className="auth-switch">
-          Zaten hesabın var mı? <Link to="/login">Giriş yap</Link>
-        </p>
-      </form>
-    </div>
+            <div className="auth-field">
+              <label htmlFor="register-full-name">
+                Ad Soyad
+              </label>
+
+              <input
+                id="register-full-name"
+                type="text"
+                placeholder="Adınız ve soyadınız"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="auth-field">
+              <label htmlFor="register-email">
+                Email
+              </label>
+
+              <input
+                id="register-email"
+                type="email"
+                placeholder="ornek@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="auth-field">
+              <label htmlFor="register-password">
+                Şifre
+              </label>
+
+              <input
+                id="register-password"
+                type="password"
+                placeholder="En az 6 karakter"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+              />
+            </div>
+
+            <div className="auth-field">
+              <label htmlFor="register-phone">
+                Telefon
+              </label>
+
+              <input
+                id="register-phone"
+                type="tel"
+                placeholder="Telefon numaranız (opsiyonel)"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="auth-submit"
+              disabled={loading}
+            >
+              <span>
+                {loading ? 'Kayıt olunuyor...' : 'Kayıt Ol'}
+              </span>
+              <span>→</span>
+            </button>
+
+            <div className="auth-switch">
+              <span>Zaten hesabın var mı?</span>
+              <Link to="/login">Giriş yap</Link>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
   );
 }
 

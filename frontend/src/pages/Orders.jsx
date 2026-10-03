@@ -42,43 +42,115 @@ function Orders() {
   }, [user, navigate]);
 
   if (loading) {
-    return <p className="orders-loading">Yükleniyor...</p>;
+    return (
+      <main className="orders-message-page">
+        <p>Siparişleriniz yükleniyor...</p>
+      </main>
+    );
   }
 
   if (error) {
-    return <p className="orders-error">{error}</p>;
+    return (
+      <main className="orders-message-page">
+        <p className="orders-error">{error}</p>
+      </main>
+    );
   }
 
   return (
-    <div className="orders-page">
-      <h1 className="orders-title">Siparişlerim</h1>
+    <main className="orders-page">
+      <header className="orders-header">
+        <span className="orders-eyebrow">BLOOM FLOWERS / ACCOUNT</span>
+
+        <h1 className="orders-title">Siparişlerim</h1>
+
+        <p className="orders-intro">
+          Bloom koleksiyonundan seçtiğiniz çiçeklerin
+          sipariş durumlarını buradan takip edebilirsiniz.
+        </p>
+      </header>
 
       {orders.length === 0 ? (
-        <p className="orders-empty">Henüz bir siparişiniz bulunmuyor.</p>
+        <section className="orders-empty">
+          <span className="orders-empty-eyebrow">
+            BLOOM COLLECTION
+          </span>
+
+          <h2>Henüz bir siparişiniz bulunmuyor.</h2>
+
+          <p>
+            Size özel hazırlanan çiçek tasarımlarını
+            keşfederek ilk siparişinizi oluşturabilirsiniz.
+          </p>
+
+          <Link to="/products" className="orders-empty-link">
+            Koleksiyonu Keşfet
+            <span>→</span>
+          </Link>
+        </section>
       ) : (
-        <div className="orders-list">
-          {orders.map((order) => (
-            <Link
-              to={`/orders/${order.id}`}
-              key={order.id}
-              className="order-card"
-            >
-              <div className="order-card-header">
-                <span className="order-number">{order.orderNumber}</span>
-                <span className={`order-status order-status-${order.status.toLowerCase()}`}>
-                  {STATUS_LABELS[order.status] || order.status}
+        <section className="orders-content">
+          <div className="orders-list-heading">
+            <span>SİPARİŞ GEÇMİŞİ</span>
+            <span>{orders.length} sipariş</span>
+          </div>
+
+          <div className="orders-list">
+            {orders.map((order, index) => (
+              <Link
+                to={`/orders/${order.id}`}
+                key={order.id}
+                className="order-card"
+              >
+                <span className="order-index">
+                  {String(index + 1).padStart(2, '0')}
                 </span>
-              </div>
-              <div className="order-card-body">
-                <span>{new Date(order.createdAt).toLocaleDateString('tr-TR')}</span>
-                <span className="order-total">{order.totalPrice} ₺</span>
-              </div>
-            </Link>
-          ))}
-        </div>
+
+                <div className="order-card-main">
+                  <span className="order-card-label">
+                    SİPARİŞ NUMARASI
+                  </span>
+
+                  <span className="order-number">
+                    {order.orderNumber}
+                  </span>
+
+                  <span className="order-date">
+                    {new Date(order.createdAt).toLocaleDateString('tr-TR')}
+                  </span>
+                </div>
+
+                <div className="order-card-status">
+                  <span className="order-card-label">
+                    DURUM
+                  </span>
+
+                  <span
+                    className={`order-status order-status-${order.status.toLowerCase()}`}
+                  >
+                    {STATUS_LABELS[order.status] || order.status}
+                  </span>
+                </div>
+
+                <div className="order-card-total">
+                  <span className="order-card-label">
+                    TOPLAM
+                  </span>
+
+                  <span className="order-total">
+                    {order.totalPrice} ₺
+                  </span>
+                </div>
+
+                <span className="order-card-arrow">→</span>
+              </Link>
+            ))}
+          </div>
+        </section>
       )}
-    </div>
+    </main>
   );
 }
 
 export default Orders;
+

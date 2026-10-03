@@ -8,11 +8,14 @@ namespace backend.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly IFileStorageService _fileStorageService;
 
         public ProductService(
-            IProductRepository productRepository)
+            IProductRepository productRepository,
+            IFileStorageService fileStorageService)
         {
             _productRepository = productRepository;
+            _fileStorageService = fileStorageService;
         }
 
         public async Task<List<Product>> GetAllProductsAsync()
@@ -38,13 +41,23 @@ namespace backend.Services
                     "Geçersiz kategori.");
             }
 
+            if (dto.Image == null)
+            {
+                throw new InvalidOperationException(
+                    "Ürün görseli seçilmelidir.");
+            }
+
+            var imageUrl =
+                await _fileStorageService.SaveProductImageAsync(
+                    dto.Image);
+
             var product = new Product
             {
                 Name = dto.Name,
                 Description = dto.Description,
                 Price = dto.Price,
                 StockQuantity = dto.StockQuantity,
-                ImageUrl = dto.ImageUrl,
+                ImageUrl = imageUrl,
                 CategoryId = dto.CategoryId,
                 IsActive = true
             };
@@ -82,13 +95,33 @@ namespace backend.Services
                     "Geçersiz kategori.");
             }
 
+            var existingProduct =
+                await _productRepository.GetByIdAsync(id);
+
+            if (existingProduct == null)
+            {
+                return null;
+            }
+
+            var imageUrl = existingProduct.ImageUrl;
+
+            if (dto.Image != null)
+            {
+                imageUrl =
+                    await _fileStorageService.SaveProductImageAsync(
+                        dto.Image);
+
+                await _fileStorageService.DeleteProductImageAsync(
+                    existingProduct.ImageUrl);
+            }
+
             var product = new Product
             {
                 Name = dto.Name,
                 Description = dto.Description,
                 Price = dto.Price,
                 StockQuantity = dto.StockQuantity,
-                ImageUrl = dto.ImageUrl,
+                ImageUrl = imageUrl,
                 CategoryId = dto.CategoryId
             };
 

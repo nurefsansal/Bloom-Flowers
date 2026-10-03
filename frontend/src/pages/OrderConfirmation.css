@@ -2,57 +2,213 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 60vh;
-  padding: var(--spacing-xl);
+  min-height: calc(100vh - 90px);
+  padding: var(--spacing-2xl) var(--container-padding);
 }
+
+/* Ana kutu */
 
 .order-confirmation-box {
+  width: 100%;
+  max-width: 680px;
+  padding: clamp(40px, 7vw, 80px) clamp(28px, 7vw, 72px);
   text-align: center;
-  background-color: var(--color-white);
-  padding: var(--spacing-2xl);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  max-width: 450px;
+  background: var(--color-porcelain);
+  border: var(--border-light);
 }
+
+/* Üst başlık */
+
+.order-confirmation-eyebrow {
+  display: block;
+  margin-bottom: 28px;
+  color: var(--color-gold);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+}
+
+/* Başarı ikonu */
 
 .order-confirmation-icon {
-  display: inline-flex;
-  align-items: center;
+  display: flex;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 28px;
+  border: 1px solid var(--color-moss);
   border-radius: 50%;
-  background-color: var(--color-success);
-  color: var(--color-white);
-  font-size: 1.8rem;
-  margin-bottom: var(--spacing-md);
+  color: var(--color-moss);
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 500;
 }
+
+/* Başlık */
 
 .order-confirmation-box h1 {
-  color: var(--color-primary);
-  font-size: 1.5rem;
-  margin-bottom: var(--spacing-sm);
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 500;
+  line-height: var(--line-height-tight);
 }
 
-.order-confirmation-number {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  margin-bottom: var(--spacing-md);
+/* Açıklama */
+
+.order-confirmation-intro {
+  max-width: 500px;
+  margin: 22px auto 0;
+  color: var(--color-neutral-600);
+  font-size: var(--text-sm);
+  line-height: var(--line-height-relaxed);
 }
+
+/* Sipariş numarası */
+
+.order-confirmation-number-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 36px 0;
+  padding: 22px;
+  background: var(--color-parchment);
+  border-top: var(--border-subtle);
+  border-bottom: var(--border-subtle);
+}
+
+.order-confirmation-number-area span {
+  color: var(--color-neutral-600);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+}
+
+.order-confirmation-number-area strong {
+  color: var(--color-moss);
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  overflow-wrap: anywhere;
+}
+
+/* Bilgilendirme */
 
 .order-confirmation-note {
+  max-width: 460px;
+  margin: 0 auto;
   color: var(--color-neutral-600);
-  font-size: 0.9rem;
-  margin-bottom: var(--spacing-lg);
+  font-size: var(--text-sm);
+  line-height: var(--line-height-relaxed);
+}
+
+/* Butonlar */
+
+.order-confirmation-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-top: 34px;
 }
 
 .order-confirmation-btn {
-  display: inline-block;
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  padding: var(--spacing-sm) var(--spacing-xl);
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  font-weight: 600;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  min-width: 230px;
+  padding: 14px 22px;
+  background: var(--color-moss);
+  color: var(--color-porcelain);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast);
 }
+
+.order-confirmation-btn span {
+  font-size: 1.1rem;
+  transition: transform var(--transition-fast);
+}
+
+.order-confirmation-btn:hover {
+  background: var(--color-moss-dark);
+  color: var(--color-porcelain);
+}
+
+.order-confirmation-btn:hover span {
+  transform: translateX(4px);
+}
+
+.order-confirmation-secondary {
+  color: var(--color-neutral-600);
+  font-size: var(--text-sm);
+  border-bottom: 1px solid transparent;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.order-confirmation-secondary:hover {
+  color: var(--color-moss);
+  border-color: var(--color-gold);
+}
+
+/* Mobil */
+
+@media (max-width: 600px) {
+  .order-confirmation-page {
+    min-height: calc(100vh - 70px);
+    padding: var(--spacing-xl) var(--container-padding);
+  }
+
+  .order-confirmation-box {
+    padding: 42px 24px;
+  }
+
+  .order-confirmation-eyebrow {
+    font-size: 0.68rem;
+    margin-bottom: 24px;
+  }
+
+  .order-confirmation-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 24px;
+    font-size: 1.7rem;
+  }
+
+  .order-confirmation-box h1 {
+    font-size: 2.6rem;
+  }
+
+  .order-confirmation-number-area {
+    margin: 30px 0;
+    padding: 18px 14px;
+  }
+
+  .order-confirmation-btn {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .order-confirmation-box {
+    padding: 34px 18px;
+  }
+
+  .order-confirmation-box h1 {
+    font-size: 2.2rem;
+  }
+
+  .order-confirmation-number-area strong {
+    font-size: 1.25rem;
+  }
+}
+

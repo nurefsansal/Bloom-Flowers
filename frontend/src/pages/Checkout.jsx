@@ -55,7 +55,6 @@ function Checkout() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
   const [orderPlaced, setOrderPlaced] = useState(false);
 
   const totalPrice = cartItems.reduce(
@@ -77,6 +76,7 @@ function Checkout() {
     async function fetchAddresses() {
       try {
         const data = await getAddresses();
+
         setAddresses(data);
 
         if (data.length === 0) {
@@ -182,208 +182,341 @@ function Checkout() {
 
   if (loading) {
     return (
-      <p className="checkout-loading">
-        Yükleniyor...
-      </p>
+      <main className="checkout-message-page">
+        <p>Sipariş bilgileri yükleniyor...</p>
+      </main>
     );
   }
 
   return (
-    <div className="checkout-page">
-      <h1 className="checkout-title">
-        Sipariş Bilgileri
-      </h1>
+    <main className="checkout-page">
+      <header className="checkout-header">
+        <span className="checkout-eyebrow">
+          SİPARİŞ
+        </span>
 
-      {error && (
-        <p className="checkout-error">
-          {error}
+        <h1 className="checkout-title">
+          Sipariş Bilgileri
+        </h1>
+
+        <p className="checkout-intro">
+          Çiçeklerinizin size ulaşması için teslimat
+          bilgilerinizi tamamlayın.
         </p>
-      )}
+      </header>
 
       <div className="checkout-layout">
-        <div className="checkout-form-section">
-          <h2>Teslimat Adresi</h2>
+        <section className="checkout-form-section">
+          <div className="checkout-section">
+            <div className="checkout-section-heading">
+              <span>01</span>
 
-          {addresses.length > 0 &&
-            !showNewAddressForm && (
-              <>
-                <select
-                  value={selectedAddressId}
-                  onChange={(e) =>
-                    setSelectedAddressId(e.target.value)
-                  }
-                  className="checkout-select"
-                >
-                  {addresses.map((addr) => (
-                    <option
-                      key={addr.id}
-                      value={addr.id}
-                    >
-                      {addr.title} — {addr.city}/
-                      {addr.district}
-                    </option>
-                  ))}
-                </select>
+              <div>
+                <span className="checkout-section-eyebrow">
+                  TESLİMAT
+                </span>
 
-                <button
-                  type="button"
-                  className="checkout-link-btn"
-                  onClick={() =>
-                    setShowNewAddressForm(true)
-                  }
-                >
-                  + Yeni adres ekle
-                </button>
-              </>
-            )}
+                <h2>Teslimat Adresi</h2>
+              </div>
+            </div>
 
-          {showNewAddressForm && (
-            <form
-              className="checkout-address-form"
-              onSubmit={handleSaveNewAddress}
-            >
-              <input
-                type="text"
-                name="title"
-                placeholder="Adres Başlığı (Ev, İş vb.)"
-                value={newAddress.title}
-                onChange={handleNewAddressChange}
-                required
-              />
+            {addresses.length > 0 &&
+              !showNewAddressForm && (
+                <div className="checkout-address-selection">
+                  <label htmlFor="checkout-address">
+                    Kayıtlı adresiniz
+                  </label>
 
-              <input
-                type="text"
-                name="city"
-                placeholder="Şehir"
-                value={newAddress.city}
-                onChange={handleNewAddressChange}
-                required
-              />
+                  <select
+                    id="checkout-address"
+                    value={selectedAddressId}
+                    onChange={(e) =>
+                      setSelectedAddressId(e.target.value)
+                    }
+                    className="checkout-select"
+                  >
+                    {addresses.map((addr) => (
+                      <option
+                        key={addr.id}
+                        value={addr.id}
+                      >
+                        {addr.title} — {addr.city}/
+                        {addr.district}
+                      </option>
+                    ))}
+                  </select>
 
-              <input
-                type="text"
-                name="district"
-                placeholder="İlçe"
-                value={newAddress.district}
-                onChange={handleNewAddressChange}
-                required
-              />
-
-              <input
-                type="text"
-                name="fullAddress"
-                placeholder="Açık Adres"
-                value={newAddress.fullAddress}
-                onChange={handleNewAddressChange}
-                required
-              />
-
-              <input
-                type="tel"
-                name="phoneNumber"
-                placeholder="Telefon"
-                value={newAddress.phoneNumber}
-                onChange={handleNewAddressChange}
-                required
-              />
-
-              <button
-                type="submit"
-                className="checkout-save-address-btn"
-              >
-                Adresi Kaydet
-              </button>
-
-              {addresses.length > 0 && (
-                <button
-                  type="button"
-                  className="checkout-link-btn"
-                  onClick={() =>
-                    setShowNewAddressForm(false)
-                  }
-                >
-                  Vazgeç
-                </button>
+                  <button
+                    type="button"
+                    className="checkout-link-btn"
+                    onClick={() =>
+                      setShowNewAddressForm(true)
+                    }
+                  >
+                    + Yeni adres ekle
+                  </button>
+                </div>
               )}
-            </form>
-          )}
 
-          <h2>Teslimat Tarihi ve Saati</h2>
+            {showNewAddressForm && (
+              <form
+                className="checkout-address-form"
+                onSubmit={handleSaveNewAddress}
+              >
+                <div className="checkout-field">
+                  <label htmlFor="address-title">
+                    Adres Başlığı
+                  </label>
 
-          <input
-            type="date"
-            min={getMinDeliveryDate()}
-            value={deliveryDate}
-            onChange={(e) =>
-              setDeliveryDate(e.target.value)
-            }
-            className="checkout-select"
-            required
-          />
+                  <input
+                    id="address-title"
+                    type="text"
+                    name="title"
+                    placeholder="Ev, İş vb."
+                    value={newAddress.title}
+                    onChange={handleNewAddressChange}
+                    required
+                  />
+                </div>
 
-          <select
-            value={deliveryTimeSlot}
-            onChange={(e) =>
-              setDeliveryTimeSlot(e.target.value)
-            }
-            className="checkout-select"
-          >
-            {TIME_SLOTS.map((slot) => (
-              <option key={slot} value={slot}>
-                {slot}
-              </option>
-            ))}
-          </select>
+                <div className="checkout-field-row">
+                  <div className="checkout-field">
+                    <label htmlFor="address-city">
+                      Şehir
+                    </label>
 
-          <h2>Sipariş Notu (opsiyonel)</h2>
+                    <input
+                      id="address-city"
+                      type="text"
+                      name="city"
+                      placeholder="Ankara"
+                      value={newAddress.city}
+                      onChange={handleNewAddressChange}
+                      required
+                    />
+                  </div>
 
-          <textarea
-            value={orderNote}
-            onChange={(e) =>
-              setOrderNote(e.target.value)
-            }
-            rows={3}
-            placeholder="Teslimatla ilgili bir notunuz varsa yazabilirsiniz"
-            className="checkout-textarea"
-          />
-        </div>
+                  <div className="checkout-field">
+                    <label htmlFor="address-district">
+                      İlçe
+                    </label>
 
-        <div className="checkout-summary-section">
+                    <input
+                      id="address-district"
+                      type="text"
+                      name="district"
+                      placeholder="Çankaya"
+                      value={newAddress.district}
+                      onChange={handleNewAddressChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="checkout-field">
+                  <label htmlFor="address-full">
+                    Açık Adres
+                  </label>
+
+                  <input
+                    id="address-full"
+                    type="text"
+                    name="fullAddress"
+                    placeholder="Mahalle, sokak, bina..."
+                    value={newAddress.fullAddress}
+                    onChange={handleNewAddressChange}
+                    required
+                  />
+                </div>
+
+                <div className="checkout-field">
+                  <label htmlFor="address-phone">
+                    Telefon
+                  </label>
+
+                  <input
+                    id="address-phone"
+                    type="tel"
+                    name="phoneNumber"
+                    placeholder="Telefon numaranız"
+                    value={newAddress.phoneNumber}
+                    onChange={handleNewAddressChange}
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="checkout-save-address-btn"
+                >
+                  Adresi Kaydet
+                  <span>→</span>
+                </button>
+
+                {addresses.length > 0 && (
+                  <button
+                    type="button"
+                    className="checkout-link-btn"
+                    onClick={() =>
+                      setShowNewAddressForm(false)
+                    }
+                  >
+                    Vazgeç
+                  </button>
+                )}
+              </form>
+            )}
+          </div>
+
+          <div className="checkout-section">
+            <div className="checkout-section-heading">
+              <span>02</span>
+
+              <div>
+                <span className="checkout-section-eyebrow">
+                  ZAMANLAMA
+                </span>
+
+                <h2>Teslimat Tarihi ve Saati</h2>
+              </div>
+            </div>
+
+            <div className="checkout-field">
+              <label htmlFor="delivery-date">
+                Teslimat Tarihi
+              </label>
+
+              <input
+                id="delivery-date"
+                type="date"
+                min={getMinDeliveryDate()}
+                value={deliveryDate}
+                onChange={(e) =>
+                  setDeliveryDate(e.target.value)
+                }
+                className="checkout-select"
+                required
+              />
+            </div>
+
+            <div className="checkout-field">
+              <label htmlFor="delivery-time">
+                Teslimat Saat Aralığı
+              </label>
+
+              <select
+                id="delivery-time"
+                value={deliveryTimeSlot}
+                onChange={(e) =>
+                  setDeliveryTimeSlot(e.target.value)
+                }
+                className="checkout-select"
+              >
+                {TIME_SLOTS.map((slot) => (
+                  <option key={slot} value={slot}>
+                    {slot}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="checkout-section">
+            <div className="checkout-section-heading">
+              <span>03</span>
+
+              <div>
+                <span className="checkout-section-eyebrow">
+                  NOT
+                </span>
+
+                <h2>Sipariş Notu</h2>
+              </div>
+            </div>
+
+            <div className="checkout-field">
+              <label htmlFor="order-note">
+                İsteğe bağlı
+              </label>
+
+              <textarea
+                id="order-note"
+                value={orderNote}
+                onChange={(e) =>
+                  setOrderNote(e.target.value)
+                }
+                rows={4}
+                placeholder="Teslimatla ilgili bir notunuz varsa yazabilirsiniz."
+                className="checkout-textarea"
+              />
+            </div>
+          </div>
+        </section>
+
+        <aside className="checkout-summary-section">
+          <div className="checkout-summary-heading">
+            <span>YOUR ORDER</span>
+            <span>{cartItems.length} ürün</span>
+          </div>
+
           <h2>Sipariş Özeti</h2>
 
-          {cartItems.map((item) => (
-            <div
-              key={item.id}
-              className="checkout-summary-item"
-            >
-              <span>
-                {item.name} × {item.quantity}
-              </span>
+          <div className="checkout-summary-items">
+            {cartItems.map((item) => (
+              <div
+                key={item.id}
+                className="checkout-summary-item"
+              >
+                <div className="checkout-summary-product">
+                  <span className="checkout-summary-product-name">
+                    {item.name}
+                  </span>
 
-              <span>
-                {item.price * item.quantity} ₺
-              </span>
-            </div>
-          ))}
+                  <span className="checkout-summary-quantity">
+                    {item.quantity} adet
+                  </span>
+                </div>
+
+                <span className="checkout-summary-price">
+                  {item.price * item.quantity} ₺
+                </span>
+              </div>
+            ))}
+          </div>
 
           <div className="checkout-summary-total">
             <span>Toplam</span>
+
             <span>{totalPrice} ₺</span>
           </div>
 
+          {error && (
+            <p className="checkout-summary-error">
+              {error}
+            </p>
+          )}
+
           <button
+            type="button"
             className="checkout-confirm-btn"
             onClick={handleConfirmOrder}
             disabled={
               !selectedAddressId || !deliveryDate
             }
           >
-            Siparişi Onayla
+            <span>Siparişi Onayla</span>
+            <span>→</span>
           </button>
-        </div>
+
+          <p className="checkout-summary-note">
+            Siparişinizi onayladıktan sonra sipariş
+            numaranız oluşturulacaktır.
+          </p>
+        </aside>
       </div>
-    </div>
+    </main>
   );
 }
 
 export default Checkout;
+
